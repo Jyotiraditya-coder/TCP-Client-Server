@@ -21,7 +21,8 @@ This project demonstrates the fundamentals of **socket programming** in C. The s
 tcp-client-server/
 │
 ├── tcpserver.c      # TCP server — binds, listens, accepts, sends
-└── tcpclient.c      # TCP client — connects, receives, prints
+├── tcpclient.c      # TCP client — connects, receives, prints
+└── Makefile         # Build system — compile, run, and clean targets
 ```
 
 ---
@@ -50,19 +51,41 @@ tcp-client-server/
 ### Prerequisites
 
 - GCC compiler
+- `make`
 - Linux / macOS (or any POSIX-compatible OS)
 
-### Compilation
+### Makefile
 
-```bash
-# Compile the server
-gcc tcpserver.c -o tcpserver
+The project includes a `Makefile` for easy building and cleanup:
 
-# Compile the client
-gcc tcpclient.c -o tcpclient
+```makefile
+CC = gcc
+CFLAGS = -Wall -Wextra
+
+all: tcpserver tcpclient
+
+tcpserver: tcpserver.c
+	$(CC) $(CFLAGS) tcpserver.c -o tcpserver
+
+tcpclient: tcpclient.c
+	$(CC) $(CFLAGS) tcpclient.c -o tcpclient
+
+clean:
+	rm -f tcpserver tcpclient
 ```
 
-### Running
+### Build
+
+```bash
+# Build both server and client
+make
+
+# Or build individually
+make tcpserver
+make tcpclient
+```
+
+### Run
 
 > ⚠️ **Start the server first**, then run the client in a separate terminal.
 
@@ -75,6 +98,14 @@ gcc tcpclient.c -o tcpclient
 ```bash
 ./tcpclient
 ```
+
+### Clean Up
+
+```bash
+make clean
+```
+
+This removes the compiled `tcpserver` and `tcpclient` binaries.
 
 ### Expected Output
 
@@ -102,6 +133,7 @@ To change the port, update `htons(4926)` in both `tcpserver.c` and `tcpclient.c`
 - **TCP (Transmission Control Protocol)** — reliable, connection-oriented communication
 - **IPv4 addressing** — using `sockaddr_in` and `inet_pton()`
 - **Client-Server model** — foundational architecture for networked applications
+- **Makefile** — automating compilation, linking, and cleanup with `make`
 
 ---
 
@@ -111,4 +143,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-<p align="center">Made with ❤️ in C by Jyotiraditya Rakshit</p>
+<p align="center">Made with ❤️ in C</p>
